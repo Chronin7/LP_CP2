@@ -55,29 +55,55 @@ define compounding calc
     while true
         if util input "0 to go back 1 to continue" =0
             return
-        starting amount= util input "what is the starting amount"
+        amount=rounded to the second decimal util input "what is the starting amount"
         incrementation= util input "what is your deposit"
         delay= util input "how oftan will you deposit in days"
         intrest= util input "what is the intrest rate"
         intrest delay= util input "what is the intrist delay in days"
-        
+        time stop= util input "what is the day that is the end of the calculation"
+        reapeat  time stop times
+            if delay is multipule of repetition
+                amount+=incrementation
+            if intrest dlay is multipule of repetition
+                amount *+(1+inttirist)
+        output after "time stop" days with intrist of "itrest you will have $"amount" in the bank
+define buget alocator
+    while true
+        if util input "0 to go back 1 to continue" =0
+            return
+        income= util input "what is your income"
+        amount of items= util input "what are the amount of things you are saveing for"
+        items=[]
+        persentage=[]
+        persent remaning=100
+        reapeate amount of items
+            add util input "what is item 'iteration'" to items
+            choise=101
+            while choise>persentage remaing
+                choise= util input "what is perentage for that item persentage remaning:'persentage remaning', 0 to end adding items"
+                if choise=0
+                    brake
+            if choise=0
+                items remove last item
+                brake
+            add choies to persentage
+        repeat lenght of items
+            output "item":"persentage":"income/(persentage/100)
+define sails
+    while true
+        if util input "0 to go back 1 to continue" =0
+            return
+        cost=util input"what is the cost"
+        discont=util input "what is the discount in persentage (input like this: "5" for 5%)"
+        output "the dicounted cost is "cost/(discont/100)"
+define tip
+    while true
+        if util input "0 to go back 1 to continue" =0
+            return
+        bill= util input "what is the bill"
+        tips=util input "what is your tip persent"
+        output "the cost +you tip is "cost*(discont/100)"
 """
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import utill_functions
 def main():
     while True:
@@ -107,3 +133,57 @@ def saveing():
             strat+=incrementation
             days+=delay
         print(f"it will take {days} day(s) to get to {goal}")
+def compond():
+    while True:
+        if utill_functions.get_valid_type(int,"0 to go back\n1 to continue\nwhat do you want: ",valid=(0,1))==0:
+            return
+        amount=utill_functions.get_valid_type(int,"what is your starting amount: ")
+        delay=utill_functions.get_valid_type(int,"what is the delay between deposits: ")
+        incrementation=utill_functions.get_valid_type(int,f"how much will you deposit every {delay} day(s): ")
+        intrest=utill_functions.get_valid_type(int,"what is the intrest rate: ")
+        intrest_delay=utill_functions.get_valid_type(int,"what is the intrest delay: ")
+        time_stop=utill_functions.get_valid_type(int,"what is the day that is the end of the calculation: ")
+        for x in range(time_stop+1):
+            if x%delay==0:
+                amount+=incrementation
+            if x%intrest_delay==0:
+                amount*(1+intrest)
+        print(f"after {time_stop} days with {intrest} intrest you will have ${amount}")
+def budget():
+    while True:
+        if utill_functions.get_valid_type(int,"0 to go back\n1 to continue\nwhat do you want: ",valid=(0,1))==0:
+            return
+        income=utill_functions.get_valid_type(int,"what is your income: ")
+        c_item=utill_functions.get_valid_type(int,"what are the amount of things you are saveing for: ")
+        items=[]
+        persentage=[]
+        persent_remaning=100
+        for x in range(c_item+1):
+            items.append(utill_functions.get_valid_type(int,f"what is item {x+1} of items"))
+            choise=101
+            while choise>persent_remaning:
+                choise=utill_functions.get_valid_type(int,f"what is perentage for that item\npersentage remaning:{persent_remaning}\n0 to end adding items: ")
+                if choise==0:
+                    break
+            if choise==0:
+                items.pop()
+                break
+            persentage.append(choise)
+        print("item:persentage alocated:amount of monney")
+        for x,y in enumerate(items):
+            print(f"{y}:{persentage[x]}:{income&(persentage[x]/100)}")
+def sails():
+    while True:
+        if utill_functions.get_valid_type(int,"0 to go back\n1 to continue\nwhat do you want: ",valid=(0,1))==0:
+            return
+        cost=utill_functions.get_valid_type(int,"what is the cost: ")
+        discount=utill_functions.get_valid_type(int,"what is the discount (input like this: '5' for 5%): ")
+        print(f"the discounted cost is {cost*(discount/100)}")
+def tip():
+    while True:
+        if utill_functions.get_valid_type(int,"0 to go back\n1 to continue\nwhat do you want: ",valid=(0,1))==0:
+            return
+        bill=utill_functions.get_valid_type(int,"what is the bill: ")
+        tips=utill_functions.get_valid_type(int,"what is the tip (input like this: '5' for 5%): ")
+        print(f"the discounted cost is {bill*((tips/100+1))}")
+            
