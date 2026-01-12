@@ -103,6 +103,8 @@ define tip
         bill= util input "what is the bill"
         tips=util input "what is your tip persent"
         output "the cost +you tip is "cost*(discont/100)"
+if the curent file active is this file
+    run main fucntion
 """
 import utill_functions
 def main():
@@ -129,6 +131,7 @@ def saveing():
         delay=utill_functions.get_valid_type(int,"what is the delay between deposits: ")
         incrementation=utill_functions.get_valid_type(int,f"how much will you deposit every {delay} day(s): ")
         goal=utill_functions.get_valid_type(int,"what is your goal: ")
+        days=0
         while start<goal:
             strat+=incrementation
             days+=delay
@@ -187,3 +190,5 @@ def tip():
         tips=utill_functions.get_valid_type(int,"what is the tip (input like this: '5' for 5%): ")
         print(f"the discounted cost is {bill*((tips/100+1))}")
             
+if __name__=="__main__":
+    main()
