@@ -10,5 +10,6 @@ class FileManager:
         return file.read()
     def write(self,data, file):
         file.write(data)
-    def remove_data(self)
+    def remove_data(self):
+        
             
