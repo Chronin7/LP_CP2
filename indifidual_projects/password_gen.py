@@ -64,13 +64,13 @@ def main():
     while True:
         if utill_functions.get_valid_type(str,"do you want to use (y/n): ",valid=["y","n"])=="n":
             return
-        leng=utill_functions.get_valid_type(int,"what is the length of the password (minimum of 4): ")
+        leng=max(4,min(utill_functions.get_valid_type(int,"what is the length of the password (minimum of 4, max of 100): "),100))
         lowwerc=False if utill_functions.get_valid_type(str,"dose it need lowwercase letters (y/n): ",valid=["y","n"])=="n" else True
         upperc=False if utill_functions.get_valid_type(str,"dose it need uppercase letters (y/n): ",valid=["y","n"])=="n" else True
         symbol=False if utill_functions.get_valid_type(str,"dose it need speshal charicters (y/n): ",valid=["y","n"])=="n" else True
         num=False if utill_functions.get_valid_type(str,"dose it need numbers (y/n): ",valid=["y","n"])=="n" else True
         for _ in range(5):
-            counter=-1
+            counter=0
             password_set={"start","starter"}
             password_set.remove("start")
             password_set.remove("starter")
@@ -95,9 +95,13 @@ def main():
             if num:
                 password_set.add(chr(random.randint(48,57)))
                 counter+=1
-            for _ in range(leng-counter):
+            if not num and not upperc and not lowwerc and not symbol:
+                print("you need to have at least 1 yes")
+                continue
+            counter2=counter
+            while counter2!=leng:
                 rand3=random.randint(1,4)
-                if rand3==1:
+                if rand3==1 and symbol:
                     rand1=random.randint(1,4)
                     if rand1==1:
                         rand2=random.randint(33,47)
@@ -108,16 +112,16 @@ def main():
                     if rand1==4:
                         rand2=random.randint(123,126)
                     password_set.add(chr(rand2))
-                    counter+=1
-                if rand3==2:
+                    counter2+=1
+                if rand3==2 and upperc:
                     password_set.add(chr(random.randint(65,90)))
-                    counter+=1
-                if rand3==3:
+                    counter2+=1
+                if rand3==3 and lowwerc:
                     password_set.add(chr(random.randint(97,122)))
-                    counter+=1
-                if rand3==4:
+                    counter2+=1
+                if rand3==4 and num:
                     password_set.add(chr(random.randint(48,57)))
-                    counter+=1
+                    counter2+=1
             for x in password_set:
                 print(x,end="")
             print()
