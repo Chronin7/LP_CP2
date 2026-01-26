@@ -97,7 +97,7 @@ def main():
                 counter+=1
             if not num and not upperc and not lowwerc and not symbol:
                 print("you need to have at least 1 yes")
-                continue
+                break
             counter2=counter
             while counter2!=leng:
                 rand3=random.randint(1,4)
