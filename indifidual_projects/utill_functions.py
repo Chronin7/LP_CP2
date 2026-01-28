@@ -12,7 +12,10 @@ import shutil
 import queue
 import sys
 import select
-
+# To prevent errors:
+def main():
+    print("sorry this is not available")
+    return
 # -------------------------
 # Input / typing utilities
 # -------------------------

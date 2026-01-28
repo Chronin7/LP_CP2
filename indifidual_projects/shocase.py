@@ -2,7 +2,7 @@ import financhal_caluclator
 import password_gen
 import personal_librarby
 import utill_functions
-import importlib
+import importlib.util
 import os
 import sys
 module_names=[]
@@ -21,10 +21,14 @@ def import_files(folder_path):
                 sys.modules[module_name] = module
                 spec.loader.exec_module(module)
                 imported_modules[module_name] = module
-                print(f"Imported module: {module_name}")
             except Exception as e:
                 print(f"Error importing {filename}: {e}")
     sys.path.pop(0)
     return imported_modules, module_names
 mods,names=import_files('indifidual_projects')
-print(names)
+while True:
+    prompt="0 to quit\n"
+    for x,y in enumerate(names):
+        prompt=prompt+f"{x+1} for {y.replace("_"," ")}\n"
+    user_input=utill_functions.get_valid_type(int,prompt)
+    mods[names[user_input-1]].main()
