@@ -45,9 +45,9 @@ def clear_term():
         raise RuntimeError("error 004 occurred in clear_term") from e
 def debugger(func):
     def before_and_after():
-        print(f"before {func.__name__}")
+        print(f"before func {func.__name__}")
         func()
-        print(f"affter {func.__name__}")
+        print(f"affter func{func.__name__}")
     return before_and_after
 def get_valid_type(type_return: type, prompt, invalid_prompt="Invalid input. Please try again.",
                    valid=None, typing=False, end="", type_speed=False, random_bounds=(0, .1)):
