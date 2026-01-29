@@ -1,6 +1,3 @@
-import financhal_caluclator
-import password_gen
-import personal_librarby
 import utill_functions
 import importlib.util
 import os
@@ -12,7 +9,7 @@ def import_files(folder_path):
     global imported_modules
     sys.path.insert(0,folder_path)
     for filename in os.listdir(folder_path):
-        if filename[-3:]==".py" and filename !="shocase.py":
+        if filename[-3:]==".py" and filename !="shocase.py" and filename != "utill_functions.py":
             module_name=filename[:-3]
             module_names.append(filename[:-3])
             try:
@@ -22,7 +19,10 @@ def import_files(folder_path):
                 spec.loader.exec_module(module)
                 imported_modules[module_name] = module
             except Exception as e:
-                print(f"Error importing {filename}: {e}")
+                if filename!="utill_functions":
+                    print(f"Error importing {filename}: {e}")
+                else:
+                    pass
     sys.path.pop(0)
     return imported_modules, module_names
 mods,names=import_files('indifidual_projects')
@@ -31,4 +31,7 @@ while True:
     for x,y in enumerate(names):
         prompt=prompt+f"{x+1} for {y.replace("_"," ")}\n"
     user_input=utill_functions.get_valid_type(int,prompt)
+    if user_input==0:
+        print("goodbye")
+        break
     mods[names[user_input-1]].main()
