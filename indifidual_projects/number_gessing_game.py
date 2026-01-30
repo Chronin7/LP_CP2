@@ -1,6 +1,6 @@
 import random
 def main():
-		easterEggCount = 250
+		easterEggCount = 15
 		maxGuessCount = 20
 		minGuess = 1
 		maxGuess = 100
@@ -8,11 +8,11 @@ def main():
 		playAgain = True
 		while playAgain == True:
 				if playCount == easterEggCount:
-						print("WHY DID YOU WASTE YOUR TIME ON THIS DUMB GAME! DO SOMETHING BETTER WITH YOUR TIME! ##connection terminated by: Guessy##")
+						print("WHY DID YOU WASTE YOUR TIME ON THIS DUMB GAME! DO SOMETHING BETTER WITH YOUR TIME!")
 						quit()
 				playCount += 1
 				num = random.randint (minGuess,maxGuess)
-				print(f'Welcome the GUESS THE NUMBER! I am your host Guessy. You have {maxGuessCount} attempts before you lose the game. good luck.')
+				print(f'Welcome the GUESS THE NUMBER! You have {maxGuessCount} attempts before you lose the game. good luck.')
 				guess = int(input(f'Guess a number {minGuess}-{maxGuess}: '))  
 				for x in range(maxGuessCount): 
 					if guess < num:
@@ -25,7 +25,6 @@ def main():
 						if playgain != "y":
 							playAgain = False
 							print("ok sending you back to the hub")
-							time.sleep(1)
 							return
 						else:
 							print("ok")
