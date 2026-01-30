@@ -49,7 +49,7 @@ def main():
             while True:
                 itera+=1
                 nums.append(utill_functions.get_valid_type(int,f"what is num{itera}:"))
-                if util_functions.get_valid_type(str,"continue? (y/n): ",valid=["y","n"])=="n":
+                if utill_functions.get_valid_type(str,"continue? (y/n): ",valid=["y","n"])=="n":
                     break
             print(f"the sum of the numbers {nums} is {add(*nums)}")
         elif choise==7:
@@ -58,7 +58,7 @@ def main():
             while True:
                 itera+=1
                 nums.append(utill_functions.get_valid_type(int,f"what is num{itera}:"))
-                if util_functions.get_valid_type(str,"continue? (y/n): ",valid=["y","n"])=="n":
+                if utill_functions.get_valid_type(str,"continue? (y/n): ",valid=["y","n"])=="n":
                     break
             print(f"the avrage of the numbers {nums} is {ave(*nums)}")
         elif choise==8:
@@ -67,7 +67,7 @@ def main():
             while True:
                 itera+=1
                 nums.append(utill_functions.get_valid_type(int,f"what is num{itera}:"))
-                if util_functions.get_valid_type(str,"continue? (y/n): ",valid=["y","n"])=="n":
+                if utill_functions.get_valid_type(str,"continue? (y/n): ",valid=["y","n"])=="n":
                     break
             print(f"the bigest number from the numbers {nums} is {max(*nums)}")
         elif choise==9:
@@ -76,7 +76,7 @@ def main():
             while True:
                 itera+=1
                 nums.append(utill_functions.get_valid_type(int,f"what is num{itera}:"))
-                if util_functions.get_valid_type(str,"continue? (y/n): ",valid=["y","n"])=="n":
+                if utill_functions.get_valid_type(str,"continue? (y/n): ",valid=["y","n"])=="n":
                     break
             print(f"the smallest number from the numbers {nums} is {max(*nums)}")
         elif choise==10:
@@ -85,22 +85,22 @@ def main():
             while True:
                 itera+=1
                 nums.append(utill_functions.get_valid_type(int,f"what is num{itera}:"))
-                if util_functions.get_valid_type(str,"continue? (y/n): ",valid=["y","n"])=="n":
+                if utill_functions.get_valid_type(str,"continue? (y/n): ",valid=["y","n"])=="n":
                     break
             print(f"the product of the numbers {nums} is {multiply(*nums)}")
         elif choise==11:
             try:
-                print(f"your random number is {utill_functions.alternate_random((utill_functions.get_valid_type(int,"what is the lowwer bound"),util_functions.get_valid_type(int,"what is the upper bound")),util_functions.get_valid_type(int,"what is the seed"),int)}")
+                print(f"your random number is {utill_functions.alternate_random((utill_functions.get_valid_type(int,"what is the lowwer bound"),utill_functions.get_valid_type(int,"what is the upper bound")),int,utill_functions.get_valid_type(int,"what is the seed"))}")
             except:
                 print("try again")
         elif choise==12:
             num=0
-            print(f"the anwer to {(num:=utill_functions.get_valid_type(int,"what is the number to factorial"))}! is {util_functions.factorial(num)}")
+            print(f"the anwer to {(num:=utill_functions.get_valid_type(int,"what is the number to factorial"))}! is {utill_functions.factorial(num)}")
         elif choise==13:
             num=0
-            print(f"the {(num:=utill_functions.get_valid_type(int,"what is the number to factorial"))}th of the fibonacci sequance is {util_functions.fibonacci(num)}")
+            print(f"the {(num:=utill_functions.get_valid_type(int,"what is the number to factorial"))}th of the fibonacci sequance is {utill_functions.fibonacci(num)}")
         elif choise==14:
-            if util_functions.is_prime(num:=utill_functions.get_valid_type(int,"what number do you want to check if prime: ")):
+            if utill_functions.is_prime(num:=utill_functions.get_valid_type(int,"what number do you want to check if prime: ")):
                 print(f"{num} is prime")
             else:
                 print(f"{num} is not prime")

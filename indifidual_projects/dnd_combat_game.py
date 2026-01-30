@@ -447,6 +447,6 @@ ______choose your move_______
             print_stats(class_chosen)
         if choise=="4":
             print("goodbye")
-            quit()
+            return
 if __name__=="__main__":
     main()
