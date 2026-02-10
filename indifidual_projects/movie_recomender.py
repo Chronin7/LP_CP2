@@ -16,9 +16,44 @@ def make_list():
         return "0"
     else:
         return rows
+#Title,Director,Genre,Rating,Length (min),Notable Actors
 def main():
     list_of_movies=make_list()
     if list_of_movies=="0":
         return
     while True:
-        user_input=utill_functions.get_valid_type(int,"yes")#work needed
+        user_input=utill_functions.get_valid_type(int,"1 to serch/get recomendations\n2 to print full movie list\n3 to quit\nwhat do you want: ")
+        if user_input==1:
+            while True:
+                user_input=utill_functions.get_valid_type(int,"1 to serche via genre\n 2 for director\n3 for Notable Actors\n4 for length (min/max)\n5 for title\n6 for rateing\n7 to return\nwhat do you want: ")
+                if user_input==5:
+                    break
+                match user_input:
+                    case 1:
+                        type_of_serch="Genre"
+                    case 2:
+                        type_of_serch="Director"
+                    case 3:
+                        type_of_serch='Notable Actors'
+                    case 4:
+                        type_of_serch="Length (min)"
+                    case 5:
+                        type_of_serch="Title"
+                    case 6:
+                        type_of_serch="Rating"
+                    case 7:
+                        break
+                    case _:
+                        print("that is not valid")
+                        type_of_serch=None
+                if type_of_serch and not type_of_serch=="Length (min)" :
+                    user_input=utill_functions.get_valid_type(str,f"what is the {type_of_serch} you are looking for: ")
+                    applicable=[]
+                    for dicts in list_of_movies:
+                        if user_input in dicts[type_of_serch]:
+                            for key,value in dicts.items():
+                                print(f"{key}:{value}")
+                elif type_of_serch=="Length (min)":
+                    user_input=utill_functions.get_valid_type(int,"what is the length of the movie you want\n(negative numbers mean less than while positive numbers mean grater than): ")
+                    
+                    

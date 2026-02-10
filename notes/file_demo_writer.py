@@ -10,8 +10,32 @@ except Exception as e:
     print(f'an error orrured: {e}')
 else:
     print()
-#basic file modifier
 file.close()
+
+
+
+#basic file writer
+try:
+    with open("notes/file_demo.txt","w") as file:
+        file.write("as you can see all of it is deleted and replaced with this")
+except FileNotFoundError:
+    print("there is no file")
+except Exception as e:
+    print(f'an error orrured: {e}')
+else:
+    print()
+#show it changed
+file.close()
+try:
+    with open("notes/file_demo.txt","r") as file:
+        for line in file:
+            print(line.strip())
+except FileNotFoundError:
+    print("there is no file")
+except Exception as e:
+    print(f'an error orrured: {e}')
+else:
+    print()
 try:
     #                               vvv w is for write r is for read a is for append x is fore creation and writing to a file
     with open("notes/file_demo.txt","a") as file:
@@ -34,6 +58,52 @@ except Exception as e:
     print(f'an error orrured: {e}')
 else:
     print()
+
+#how to make a new file if the file doesnt exest it just makes one for you
+
+
+#r+
+
+try:
+    with open("notes/file_demo.txt","r+") as file:
+        content=file.read()
+        content+="\nthis is added via r+"
+        file.write(content)
+except FileNotFoundError:
+    print("there is no file")
+except Exception as e:
+    print(f'an error orrured: {e}')
+else:
+    print()
+
+#show it changed
+file.close()
+try:
+    with open("notes/file_demo.txt","r") as file:
+        for line in file:
+            print(line.strip())
+except FileNotFoundError:
+    print("there is no file")
+except Exception as e:
+    print(f'an error orrured: {e}')
+else:
+    print()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #reading a csv
 import csv
@@ -71,3 +141,22 @@ class FileManager:
         self.file_type=file_type
     def read(self):
         pass
+
+
+#csv stuff
+#import csv
+#same methud as writing to a txt for a,w and r and r+ but a+ and w+
+with open("notes/sample.csv","a",newline="")as csvfile:
+    #                         this seperates each item
+    writer=csv.writer(csvfile,delimiter=",")
+    writer.writerow(["We are the nights who say","NI!"])
+csvfile.close()
+with open("notes/sample.csv","w",newline="")as csvfile:
+    #                         this seperates each item
+    
+    pass
+csvfile.close()
+with open("notes/sample.csv","a",newline="")as csvfile:
+    fieldnames=["username","color"]
+    writer=csv.DictWriter(csvfile,fieldnames=fieldnames)
+    writer.writerow({"username":"bob","color":"puse"})

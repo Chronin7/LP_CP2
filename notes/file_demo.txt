@@ -1,10 +1,4 @@
-this is a file that will have lots of "this is added"
+as you can see all of it is deleted and replaced with this
+this is addedas you can see all of it is deleted and replaced with this
 this is added
-
-this is added
-this is added
-this is added
-this is added
-this is added
-this is added
-this is added
+this is added via r+
