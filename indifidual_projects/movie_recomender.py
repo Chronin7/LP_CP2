@@ -25,7 +25,7 @@ def main():
         user_input=utill_functions.get_valid_type(int,"1 to serch/get recomendations\n2 to print full movie list\n3 to quit\nwhat do you want: ")
         if user_input==1:
             while True:
-                user_input=utill_functions.get_valid_type(int,"1 to serche via genre\n 2 for director\n3 for Notable Actors\n4 for length (min/max)\n5 for title\n6 for rateing\n7 to return\nwhat do you want: ")
+                user_input=utill_functions.get_valid_type(int,"1 to serche via genre\n2 for director\n3 for Notable Actors\n4 for length (min/max)\n5 for title\n6 for rateing\n7 to return\nwhat do you want: ")
                 if user_input==5:
                     break
                 match user_input:
@@ -47,13 +47,26 @@ def main():
                         print("that is not valid")
                         type_of_serch=None
                 if type_of_serch and not type_of_serch=="Length (min)" :
-                    user_input=utill_functions.get_valid_type(str,f"what is the {type_of_serch} you are looking for: ")
-                    applicable=[]
+                    user_input=utill_functions.get_valid_type(str,f"what is the {type_of_serch} you are looking for: ").lower()
                     for dicts in list_of_movies:
-                        if user_input in dicts[type_of_serch]:
+                        if user_input in dicts[type_of_serch].lower():
                             for key,value in dicts.items():
-                                print(f"{key}:{value}")
+                                print(f"{key}:{value}  ",end="")
+                            print()
                 elif type_of_serch=="Length (min)":
                     user_input=utill_functions.get_valid_type(int,"what is the length of the movie you want\n(negative numbers mean less than while positive numbers mean grater than): ")
-                    
-                    
+                    if user_input<0:
+                        for dicts in list_of_movies:
+                            if abs(user_input)>dicts["Length (min)"]:
+                                for key,value in dicts.items():
+                                    print(f"{keys}:{value}",end="  ")
+                                print()
+        elif user_input==2:
+            for dicts in list_of_movies:
+                for key,value in dicts.items():
+                    print(f"{key}:{value}  ",end="")
+                print()
+        elif user_input==3:
+            return()
+if __name__=="__main__":
+    main() 
