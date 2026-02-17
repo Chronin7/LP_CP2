@@ -12,7 +12,7 @@ def import_files(folder_path):
         if filename[-3:]!=".py":
             continue
         module_name=filename[:-3]
-        if module_name in ["shocase","utill_functions"]:
+        if module_name in ["shocase","utill_functions","file_manager"]:
             continue
         try:
             spec = importlib.util.spec_from_file_location(module_name,os.path.join(folder_path,filename))
@@ -30,7 +30,7 @@ while True:
     prompt="0 to quit\n"
     for x,y in enumerate(names):
         prompt=prompt+f"{x+1} for {y.replace("_"," ")}\n"
-    user_input=utill_functions.get_valid_type(int,prompt)
+    user_input=utill_functions.get_valid_type(int,prompt,valid=(0,len(names)))
     if user_input==0:
         print("goodbye")
         break
