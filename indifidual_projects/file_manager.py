@@ -1,4 +1,3 @@
-#im profeshonl
 import csv
 class csv_file:
     def __init__(self,path_to_csv):
