@@ -20,3 +20,4 @@ def roll_dice(dice_size,dice_count,advantage=None):
     elif advantage == False:
         return min(alternate_random((1,dice_size),int),alternate_random((1,dice_size),int))
 
+pass
