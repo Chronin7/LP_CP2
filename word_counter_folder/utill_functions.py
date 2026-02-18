@@ -1,71 +1,3 @@
-class StupidProofingFailed(Exception):
-    pass
-class InsultUser(Exception):
-    pass
-class LogicError(Exception):
-    pass
-class CustomError(Exception):
-    def __init__(self,error_message):
-        self.error_message=error_message
-        super().__init__(self.error_message)
-import csv
-class csv_file:
-    def __init__(self,path_to_csv):
-        self.path_to_csv=path_to_csv
-        self.sync()
-    def sync(self):
-        try:
-            with open(self.path_to_csv, mode="r") as file:
-                reader=csv.DictReader(file)
-                self.headers=[]
-                self.headers=reader.fieldnames
-                self.rows=[]
-                self.rows=list(reader)
-        except FileNotFoundError:
-            print(f"Error: {self.path_to_csv} dose not exist")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-    def __getitem__(self,index):
-        return self.rows[index]
-    def __str__(self):
-        output=""
-        for row in self.rows:
-            line=",".join([f"{k}:{v}"for k,v in row.items()])
-            output+=line+"\n"
-        return output
-    def return_list_of_dict(self):
-        return self.rows
-    def add(self,content):
-        if len(content)!=len(self.headers):
-            raise IndexError(f"len(content)({len(content)})!=len(hedder)({len(self.headers)})")
-        try:
-            with open(self.path_to_csv,mode="a",newline='\n') as file:
-                writer=csv.writer(file)
-                writer.writerow(content)
-        except FileNotFoundError:
-            print(f"Error: {self.path_to_csv} dose not exist")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-        self.sync()
-    def __len__(self):
-        return len(self.headers)
-    def __delitem__(self,line):
-        arow=[]
-        with open(self.path_to_csv,"r") as source:
-            arow=list(csv.reader(source))
-        if 0<=line<len(self.rows):
-            del arow[line+1]
-            try:
-                with open(self.path_to_csv,"w",newline='\n') as file:
-                    writer=csv.writer(file)
-                    writer.writerows(arow)
-            except FileNotFoundError:
-                print(f"Error: {self.path_to_csv} dose not exist")
-            except Exception as e:
-                print(f"An error occurred: {e}")
-            self.sync()
-
-
 # util_functions.py
 from collections.abc import Iterable
 import random
@@ -80,7 +12,6 @@ import shutil
 import queue
 import sys
 import select
-
 
 # -------------------------
 # Input / typing utilities
@@ -98,7 +29,6 @@ def type_text(text, end="\n", typing=True, random_bounds=(0, .1)):
     except Exception as e:
         raise RuntimeError("error 003 occurred in type_text") from e
 
-
 def clear_term():
     """Clear the terminal screen."""
     try:
@@ -112,9 +42,9 @@ def clear_term():
         raise RuntimeError("error 004 occurred in clear_term") from e
 def debugger(func):
     def before_and_after():
-        print(f"before func {func.__name__}")
+        print(f"before {func.__name__}")
         func()
-        print(f"affter func{func.__name__}")
+        print(f"affter {func.__name__}")
     return before_and_after
 def get_valid_type(type_return: type, prompt, invalid_prompt="Invalid input. Please try again.",
                    valid=None, typing=False, end="", type_speed=False, random_bounds=(0, .1)):
@@ -170,7 +100,6 @@ def get_valid_type(type_return: type, prompt, invalid_prompt="Invalid input. Ple
     except Exception as e:
         raise RuntimeError("error 001 occurred in get_valid_type") from e
 
-
 def select_item[T](
         items: Iterable[T],
         prompt: str,
@@ -192,10 +121,8 @@ def select_item[T](
 def getch():
     import sys, termios, tty
 
-
     fd = sys.stdin.fileno()
     orig = termios.tcgetattr(fd)
-
 
     try:
         tty.setcbreak(fd)  # or tty.setraw(fd) if you prefer raw mode's behavior.
@@ -258,7 +185,6 @@ def get_error_type(error_number):
     except Exception as e:
         raise RuntimeError("error 002 occurred in get_error_type") from e
 
-
 # -------------------------
 # Random / math / misc
 # -------------------------
@@ -302,7 +228,6 @@ def alternate_random(bounds, type_of_random=int, seed=None):
     except Exception as e:
         raise RuntimeError("error 005 occurred in alternate_random") from e
 
-
 def factorial(n):
     try:
         n = int(n)
@@ -317,7 +242,6 @@ def factorial(n):
     except Exception as e:
         raise RuntimeError("error 014 occurred in factorial") from e
 
-
 def fibonacci(n):
     try:
         n = int(n)
@@ -331,7 +255,6 @@ def fibonacci(n):
         return b
     except Exception as e:
         raise RuntimeError("error 015 occurred in fibonacci") from e
-
 
 def is_prime(n):
     try:
@@ -351,7 +274,6 @@ def is_prime(n):
     except Exception as e:
         raise RuntimeError("error 016 occurred in is_prime") from e
 
-
 # -------------------------
 # Networking / system info
 # -------------------------
@@ -362,14 +284,12 @@ def get_ip_adress():
     except Exception as e:
         raise RuntimeError("error 017 occurred in get_ip_adress") from e
 
-
 def get_mac_address():
     try:
         mac = uuid.getnode()
         return ':'.join(("%012X" % mac)[i:i+2] for i in range(0, 12, 2))
     except Exception as e:
         raise RuntimeError("error 018 occurred in get_mac_address") from e
-
 
 def get_system_info():
     try:
@@ -384,11 +304,29 @@ def get_system_info():
     except Exception as e:
         raise RuntimeError("error 019 occurred in get_system_info") from e
 
-
 # -------------------------
 # File / directory helpers
 # -------------------------
+def read_file(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return f.read()
+    except Exception as e:
+        raise RuntimeError("error 020 occurred in read_file") from e
 
+def write_file(file_path, contents):
+    try:
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(contents)
+    except Exception as e:
+        raise RuntimeError("error 021 occurred in write_file") from e
+
+def append_file(file_path, contents):
+    try:
+        with open(file_path, 'a', encoding='utf-8') as f:
+            f.write(contents)
+    except Exception as e:
+        raise RuntimeError("error 022 occurred in append_file") from e
 
 def delete_file(file_path):
     try:
@@ -396,13 +334,11 @@ def delete_file(file_path):
     except Exception as e:
         raise RuntimeError("error 023 occurred in delete_file") from e
 
-
 def file_exists(file_path):
     try:
         return os.path.isfile(file_path)
     except Exception as e:
         raise RuntimeError("error 024 occurred in file_exists") from e
-
 
 def list_files(directory):
     try:
@@ -410,13 +346,11 @@ def list_files(directory):
     except Exception as e:
         raise RuntimeError("error 025 occurred in list_files") from e
 
-
 def create_directory(directory):
     try:
         os.makedirs(directory, exist_ok=True)
     except Exception as e:
         raise RuntimeError("error 026 occurred in create_directory") from e
-
 
 def delete_directory(directory):
     try:
@@ -424,13 +358,11 @@ def delete_directory(directory):
     except Exception as e:
         raise RuntimeError("error 027 occurred in delete_directory") from e
 
-
 def directory_exists(directory):
     try:
         return os.path.isdir(directory)
     except Exception as e:
         raise RuntimeError("error 028 occurred in directory_exists") from e
-
 
 def get_file_size(file_path):
     try:
@@ -438,13 +370,11 @@ def get_file_size(file_path):
     except Exception as e:
         raise RuntimeError("error 029 occurred in get_file_size") from e
 
-
 def get_current_working_directory():
     try:
         return os.getcwd()
     except Exception as e:
         raise RuntimeError("error 030 occurred in get_current_working_directory") from e
-
 
 def change_working_directory(directory):
     try:
@@ -452,20 +382,17 @@ def change_working_directory(directory):
     except Exception as e:
         raise RuntimeError("error 031 occurred in change_working_directory") from e
 
-
 def join_paths(*paths):
     try:
         return os.path.join(*paths)
     except Exception as e:
         raise RuntimeError("error 033 occurred in join_paths") from e
 
-
 def get_linenumber():
     try:
         return inspect.currentframe().f_back.f_lineno
     except Exception as e:
         raise RuntimeError("error 033 occurred in get_linenumber") from e
-
 
 # -------------------------
 # Thread helper class
@@ -479,13 +406,11 @@ class threads:
         except Exception as e:
             raise RuntimeError("error 006 occurred in threads.__init__") from e
 
-
     def start(self):
         try:
             self.thread.start()
         except Exception as e:
             raise RuntimeError("error 007 occurred in threads.start") from e
-
 
     def join(self, timeout=None):
         try:
@@ -493,13 +418,11 @@ class threads:
         except Exception as e:
             raise RuntimeError("error 008 occurred in threads.join") from e
 
-
     def is_alive(self):
         try:
             return self.thread.is_alive()
         except Exception as e:
             raise RuntimeError("error 009 occurred in threads.is_alive") from e
-
 
     @staticmethod
     def repeat_function(func, times, delay=0, args=()):
@@ -510,7 +433,6 @@ class threads:
         except Exception as e:
             raise RuntimeError("error 010 occurred in threads.repeat_function") from e
 
-
     @staticmethod
     def repeat_function_until_stop(func, delay=0, args=()):
         try:
@@ -520,20 +442,17 @@ class threads:
         except Exception as e:
             raise RuntimeError("error 011 occurred in threads.repeat_function_until_stop") from e
 
-
     def get_data(self):
         try:
             return getattr(self.thread, "data", None)
         except Exception as e:
             raise RuntimeError("error 012 occurred in threads.get_data") from e
 
-
     def set_data(self, data):
         try:
             setattr(self.thread, "data", data)
         except Exception as e:
             raise RuntimeError("error 013 occurred in threads.set_data") from e
-
 
     def input_thread_setup(self):
         """Start a background input thread that collects stdin lines into a queue."""
@@ -543,13 +462,11 @@ class threads:
                     super().__init__(daemon=True)
                     self.queue = queue.Queue()
 
-
                 def run(self):
                     while True:
                         if select.select([sys.stdin], [], [], 0.1)[0]:
                             user_input = sys.stdin.readline().rstrip("\n")
                             self.queue.put(user_input)
-
 
                 def get_input(self):
                     items = []
@@ -557,13 +474,8 @@ class threads:
                         items.append(self.queue.get())
                     return items
 
-
             self.input_thread = InputThread()
             self.input_thread.start()
             return self.input_thread
         except Exception as e:
             raise RuntimeError("error 013 occurred in threads.input_thread_setup") from e
-
-
-#def testing_func():
-
