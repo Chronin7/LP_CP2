@@ -13,36 +13,29 @@ def main():
             else:
                 screen=turtle.Screen()
                 turtle.clear()
-                screen.ontimer(draw,0)
-def draw(recursion_depth,curent_depth=1,start_point=(-500,-500),size=1000,hedding=0):
+                draw(count,trnlgls_count_side=2**(count-1))
+
+def draw(recursion_depth,curent_depth=1,start_point=(-500,-500),size=500,hedding=0,trnlgls_count_side=0):
+    
     global screen
     if curent_depth>recursion_depth:
         return
+    smallest_size=size/recursion_depth
     temp_turt=turtle.Turtle("triangle")
     temp_turt.speed(0)
     temp_turt.penup()
-    #temp_turt.hideturtle()
     temp_turt.goto(start_point[0],start_point[1])
-    temp_turt.setheading(hedding)
     temp_turt.pendown()
-    temp_turt.forward((size/curent_depth)/2)
-    first_turt=temp_turt.pos()
-    first_head=temp_turt.heading()
-    draw(recursion_depth,curent_depth=curent_depth+1,start_point=first_turt,hedding=first_head)
-    temp_turt.forward((size/curent_depth)/2)
+    temp_turt.forward(smallest_size)
+    first_location=(temp_turt.xcor(),temp_turt.ycor())
     temp_turt.left(120)
-    temp_turt.forward((size/curent_depth)/2)
-    second_turt=temp_turt.pos()
-    second_head=temp_turt.heading()
-    draw(recursion_depth,curent_depth=curent_depth+1,start_point=second_turt,hedding=second_head+180)
-    temp_turt.forward((size/curent_depth)/2)
+    temp_turt.forward(smallest_size)
+    second_location=(temp_turt.xcor(),temp_turt.ycor())
     temp_turt.left(120)
-    temp_turt.forward((size/curent_depth)/2)
-    third_turt=temp_turt.pos()
-    third_head=temp_turt.heading()
-    draw(recursion_depth,curent_depth=curent_depth+1,start_point=third_turt,hedding=third_head)
-    temp_turt.forward((size/curent_depth)/2)
-    
-
+    temp_turt.forward(smallest_size)
+    temp_turt.penup()
+    temp_turt.goto(-1000,-1000)
+    if curent_depth==1:
+        draw(recursion_depth,curent_depth+1,first_location,size,hedding)
 if __name__=="__main__":
     main()
