@@ -1,4 +1,5 @@
 import csv
+import json
 class csv_file:
     def __init__(self,path_to_csv):
         self.path_to_csv=path_to_csv
@@ -67,9 +68,34 @@ class txt_file:
             print(f"Error: {self.path_to_txt} dose not exist")
         except Exception as e:
             print(f"An error occurred: {e}")
+    def write(self,content,mode="a"):
+        try:
+            with open(self.path_to_txt,mode) as file:
+                file.write(content)
+        except FileNotFoundError:
+            print(f"Error: {self.path_to_txt} dose not exist")
+        except Exception as e:
+            print(f"An error occurred: {e}")
     def __str__(self):
         self.sync()
         return self.content
     def __len__(self):
         self.sync()
         return len(self.content.split())
+    def __add__(self,val):
+        return str(self).join(val)
+    
+class json_file:
+    def __init__(self,path_to_json):
+        self.path_to_json=path_to_json
+        self.sync()
+    def sync(self):
+        try:
+            with open(self.path_to_json,'r') as file:
+                self.content=json.load(file)
+        except FileNotFoundError:
+            print(f"Error: {self.path_to_json} dose not exist")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+    def write(self,content):
+    def change_val(self,index,val):
