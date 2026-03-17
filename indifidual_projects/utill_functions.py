@@ -12,7 +12,8 @@ import shutil
 import queue
 import sys
 import select
-
+import csv
+import json
 # -------------------------
 # Input / typing utilities
 # -------------------------
@@ -133,57 +134,7 @@ def getch():
 #    while True:
 #        if getch()=="w":
 #            item-=1
-# -------------------------
-# Error helper
-# -------------------------
-def get_error_type(error_number):
-    """Return a human-readable error string for a given error number."""
-    errors = [
-        None,
-        "error 001 is error in get_valid_type function",
-        "error 002 is error in get_error_type function",
-        "error 003 is error in type_text function",
-        "error 004 is error in clear_term function",
-        "error 005 is error in alternate_random function",
-        "error 006 is error in threads class __init__ function",
-        "error 007 is error in threads class start function",
-        "error 008 is error in threads class join function",
-        "error 009 is error in threads class is_alive function",
-        "error 010 is error in threads class repeat_function function",
-        "error 011 is error in threads class repeat_function_until_stop function",
-        "error 012 is error in threads class get_data function",
-        "error 013 is error in threads class set_data function",
-        "error 014 is error in factorial function",
-        "error 015 is error in fibonacci function",
-        "error 016 is error in is_prime function",
-        "error 017 is error in get_ip_adress function",
-        "error 018 is error in get_mac_address function",
-        "error 019 is error in get_system_info function",
-        "error 020 is error in read_file function",
-        "error 021 is error in write_file function",
-        "error 022 is error in append_file function",
-        "error 023 is error in delete_file function",
-        "error 024 is error in file_exists function",
-        "error 025 is error in list_files function",
-        "error 026 is error in create_directory function",
-        "error 027 is error in delete_directory function",
-        "error 028 is error in directory_exists function",
-        "error 029 is error in get_file_size function",
-        "error 030 is error in get_current_working_directory function",
-        "error 031 is error in change_working_directory function",
-        "error 032 is your fault whoever is sitting at the computer",
-        "error 033 is error in join_paths function",
-        "error 034 is error in split_path function",
-        "error 035 is error in get_file_extension function",
-        "error 036 is error in get_file_name function",
-        "error 037 is error in copy_file function",
-        "error 038 is error in move_file function",
-        "error 039 is error in rename_file function",
-    ]
-    try:
-        return errors[error_number]
-    except Exception as e:
-        raise RuntimeError("error 002 occurred in get_error_type") from e
+
 
 # -------------------------
 # Random / math / misc
@@ -307,19 +258,115 @@ def get_system_info():
 # -------------------------
 # File / directory helpers
 # -------------------------
-def read_file(file_path):
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            return f.read()
-    except Exception as e:
-        raise RuntimeError("error 020 occurred in read_file") from e
 
-def write_file(file_path, contents):
-    try:
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(contents)
-    except Exception as e:
-        raise RuntimeError("error 021 occurred in write_file") from e
+class csv_file:
+    def __init__(self,path_to_csv):
+        self.path_to_csv=path_to_csv
+        self.sync()
+    def sync(self):
+        try:
+            with open(self.path_to_csv, mode="r") as file:
+                reader=csv.DictReader(file)
+                self.headers=[]
+                self.headers=reader.fieldnames
+                self.rows=[]
+                self.rows=list(reader)
+        except FileNotFoundError:
+            print(f"Error: {self.path_to_csv} dose not exist")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+    def __getitem__(self,index):
+        return self.rows[index]
+    def __str__(self):
+        output=""
+        for row in self.rows:
+            line=",".join([f"{k}:{v}"for k,v in row.items()])
+            output+=line+"\n"
+        return output
+    def return_list_of_dict(self):
+        return self.rows
+    def add(self,content):
+        if len(content)!=len(self.headers):
+            raise IndexError(f"len(content)({len(content)})!=len(hedder)({len(self.headers)})")
+        try:
+            with open(self.path_to_csv,mode="a",newline='\n') as file:
+                writer=csv.writer(file)
+                writer.writerow(content)
+        except FileNotFoundError:
+            print(f"Error: {self.path_to_csv} dose not exist")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+        self.sync()
+    def __len__(self):
+        return len(self.headers)
+    def __delitem__(self,line):
+        arow=[]
+        with open(self.path_to_csv,"r") as source:
+            arow=list(csv.reader(source))
+        if 0<=line<len(self.rows):
+            del arow[line+1]
+            try:
+                with open(self.path_to_csv,"w",newline='\n') as file:
+                    writer=csv.writer(file)
+                    writer.writerows(arow)
+            except FileNotFoundError:
+                print(f"Error: {self.path_to_csv} dose not exist")
+            except Exception as e:
+                print(f"An error occurred: {e}")
+            self.sync()
+
+class txt_file:
+    def __init__(self,path_to_txt):
+        self.path_to_txt=path_to_txt
+        self.sync()
+    def sync(self):
+        try:
+            with open(self.path_to_txt,'r') as file:
+                self.content=file.read()
+        except FileNotFoundError:
+            print(f"Error: {self.path_to_txt} dose not exist")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+    def write(self,content,mode="a"):
+        try:
+            with open(self.path_to_txt,mode) as file:
+                file.write(content)
+        except FileNotFoundError:
+            print(f"Error: {self.path_to_txt} dose not exist")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+    def __str__(self):
+        self.sync()
+        return self.content
+    def __len__(self):
+        self.sync()
+        return len(self.content.split())
+    def __add__(self,val):
+        return str(self).join(val)
+    
+class json_file:
+    def __init__(self,path_to_json):
+        self.path_to_json=path_to_json
+        self.sync()
+    def sync(self):
+        try:
+            with open(self.path_to_json,'r') as file:
+                self.content=json.load(file)
+        except FileNotFoundError:
+            print(f"Error: {self.path_to_json} dose not exist")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+    def write(self,content):
+        try:
+            with open(self.path_to_json,"w") as file:
+                json.dump(content,file,indent=4)
+        except FileNotFoundError:
+            print(f"Error: {self.path_to_json} dose not exist")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+    def change_val(self,index,val):
+        self.sync()
+        self.content[index]=val
 
 def append_file(file_path, contents):
     try:

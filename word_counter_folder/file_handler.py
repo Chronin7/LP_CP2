@@ -98,4 +98,14 @@ class json_file:
         except Exception as e:
             print(f"An error occurred: {e}")
     def write(self,content):
+        try:
+            with open(self.path_to_json,"w") as file:
+                json.dump(content,file,indent=4)
+        except FileNotFoundError:
+            print(f"Error: {self.path_to_json} dose not exist")
+        except Exception as e:
+            print(f"An error occurred: {e}")
     def change_val(self,index,val):
+        self.sync()
+        self.content[index]=val
+        

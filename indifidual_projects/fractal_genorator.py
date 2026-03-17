@@ -3,10 +3,10 @@ import utill_functions
 def main():
     global screen
     while True:
-        #choise=utill_functions.get_valid_type(int,"0 to return\n1 to draw fractal\nWhat do you want: ",valid=(0,1))
-        #if choise==0:
-        #    return
-        #elif choise==1:
+        choise=utill_functions.get_valid_type(int,"0 to return\n1 to draw fractal\nWhat do you want: ",valid=(0,1))
+        if choise==0:
+            return
+        elif choise==1:
             count=utill_functions.get_valid_type(int,"What is the recursion depth that you want\n0 to return\n(dont do it too high or it will crash): ",valid=(0,100))
             if count==0:
                 continue
