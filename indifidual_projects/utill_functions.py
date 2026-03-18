@@ -13,7 +13,20 @@ import queue
 import sys
 import select
 import csv
+import urllib.request
+import urllib.parse
+import csv
 import json
+from datetime import datetime
+
+def get_USA_interest_rate():
+    try:
+        with urllib.request.urlopen(urllib.request.Request(f"{"https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/avg_interest_rates"}?{urllib.parse.urlencode({"filter": f"record_calendar_year:eq:{datetime.now().year}","sort": "-record_date"})}", headers={'User-Agent': 'Python/3.12'})) as response:
+            rate = json.loads(response.read().decode())['data'][0].get('avg_interest_rate_amt', 'N/A')
+            return rate
+    except Exception as e:
+        raise e
+
 # -------------------------
 # Input / typing utilities
 # -------------------------
@@ -178,7 +191,6 @@ def alternate_random(bounds, type_of_random=int, seed=None):
         return float(a + (random_number / 0x7FFFFFFF) * span)
     except Exception as e:
         raise RuntimeError("error 005 occurred in alternate_random") from e
-
 def factorial(n):
     try:
         n = int(n)
@@ -192,7 +204,6 @@ def factorial(n):
         return result
     except Exception as e:
         raise RuntimeError("error 014 occurred in factorial") from e
-
 def fibonacci(n):
     try:
         n = int(n)
@@ -206,7 +217,6 @@ def fibonacci(n):
         return b
     except Exception as e:
         raise RuntimeError("error 015 occurred in fibonacci") from e
-
 def is_prime(n):
     try:
         n = int(n)
@@ -224,7 +234,6 @@ def is_prime(n):
         return True
     except Exception as e:
         raise RuntimeError("error 016 occurred in is_prime") from e
-
 # -------------------------
 # Networking / system info
 # -------------------------
@@ -234,14 +243,12 @@ def get_ip_adress():
         return socket.gethostbyname(hostname)
     except Exception as e:
         raise RuntimeError("error 017 occurred in get_ip_adress") from e
-
 def get_mac_address():
     try:
         mac = uuid.getnode()
         return ':'.join(("%012X" % mac)[i:i+2] for i in range(0, 12, 2))
     except Exception as e:
         raise RuntimeError("error 018 occurred in get_mac_address") from e
-
 def get_system_info():
     try:
         return {
@@ -254,11 +261,9 @@ def get_system_info():
         }
     except Exception as e:
         raise RuntimeError("error 019 occurred in get_system_info") from e
-
 # -------------------------
 # File / directory helpers
 # -------------------------
-
 class csv_file:
     def __init__(self,path_to_csv):
         self.path_to_csv=path_to_csv
