@@ -64,13 +64,16 @@ obj4=[34,81,78,43,61,3]
 obj5=[16,53,84,26,35,63]
 obj6=[13,71,25,34,61,23]
 objs=[obj1,obj2,obj3,obj4,obj5]
-graph_offset=(-100,-100)
-graph_size=30
+graph_offset=(-300,-300)
+graph_size=200
 
 joe=turtle.Turtle()
 joe.penup()
 joe.speed(0)
 joe.goto(graph_offset)
 joe.left(90)
-
+joe.pendown()
+joe.forward(graph_size)
+joe.backward(graph_size)
+turtle.done()
 
