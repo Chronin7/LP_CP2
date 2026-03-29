@@ -1,8 +1,4 @@
 import utill_functions
-class grade:
-    def __init__(self,students):
-        self.students=students
-    
 class student:
     def __init__(self,name,grades):
         self.grades=grades
@@ -90,19 +86,55 @@ class student:
     def __str__(self):
         out=str(self.name)
         for x in self.get_classes():
-            out=f"{out}\n{x}: letter grade: {grade_letter(self.grades[x])[0]} GPA: {grade_letter(self.grades[x])[0]}"
-            
-        out=f"{out}\n"
+            out=f"{out}\n{x}: letter grade: {grade_letter(self.grades[x])[0]} GPA: {grade_letter(self.grades[x])[1]}"
+        out=f"{out}\naverage grade: letter: {grade_letter(self.get_avrage())[0]} GPA: {grade_letter(self.get_avrage())[1]}"
         return 
     def change_grade(self,class_grade):
         self.grades[class_grade[0]]=class_grade[1]
     def get_classes(self):
         return self.grades.keys()
+    def __repr__(self):
+        return self.name
     def get_avrage(self):
         total=0
         for key,val in self.grades.items():
             total+=val
-            
+        return total/len(self.grades.items())
+class grade_book:
+    def __init__(self,students:list[student]):
+        self.students=students
+    def add_student(self,student):
+        self.students.append(student)
+    def remove_student(self,student):
+        names=[]
+        for x in self.students:
+            names.append(repr(x))
+        if student in names:
+            self.students.pop(names.index(student))
+    def get_student(self,student):
+        names=[]
+        for x in self.students:
+            names.append(repr(x))
+        if student in names:
+            return self.students[names.index(student)]
+    def get_classes(self,nstudent):
+        student=self.get_student(nstudent)
+        return student.get_classes()
+    def get_grades(self,nstudent):
+        student=self.get_student(nstudent)
+        return str(student)
+    def change_grade(self,nstudent,grade_class):
+        student=self.get_student(nstudent)
+        student.change_grade(grade_class)
+    def __iter__(self):
+        names=[]
+        for x in self.students:
+            yield repr(x)
+    def __str__(self):
+        out=""
+        for x in self.students:
+            out=f"{out}\n{repr(x)}"
+        return out
 def grade_letter(ggrade):
     if ggrade<60:
         return ["F",0]
@@ -207,3 +239,42 @@ def grade_letter(ggrade):
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠉⠉⠙⠛⠛⠛⠛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣤⣀⣀⣀⣀⣠⣴⣾⣿⣿⣿⣷⣶⣶⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⠿⠛⠛⠛⠛⠛⠋⠉⠁
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠙⠉⠋⠙⠋⠙⠉⠉⠉⠉⠉⠉⠁⠀⠀⠀⠈⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠻⠟⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
         return ["wow",999]
+def get_grade_dict(name):
+    grade_dict={}
+    while True:
+        class_name=utill_functions.get_valid_type(str,"0 to stop adding classes\n what is the name of the class: ")
+        if class_name=="0":
+            if len(grade_dict)==0:
+                print("you cant have a student with 0 classes")
+                continue
+            break
+        grade=utill_functions.get_valid_type(int,f"what is {name}'s grade in {class_name}",valid=(0,1000))
+        grade_dict[class_name]=grade
+    return grade_dict
+def main():
+    name=utill_functions.get_valid_type(str,"what is the name of your first student: ")
+    grades=grade_book([student(name,get_grade_dict(name))])
+    while True:
+        choice=utill_functions.get_valid_type(int,"0 to quit\n1 to choose student to examen\n2 to see all students\n3 to add student\nwhat do you want: ",valid=(0,3))
+        if choice==0:
+            return
+        elif choice==1:
+            menu="here are your options (type them in exactly as seen)"
+            valid=[]
+            for num,x in enumerate(grade_book):
+                menu=f"{menu}\n {x}"
+                menu=f"{menu}\nwho do you want: "
+                valid.append(x)
+            student=utill_functions.get_valid_type(str,menu,valid=valid)
+            while True:
+                choice=utill_functions.get_valid_type(int,"0 to return\n1 to change grades\n2 to see grades\n3 to remove student\nwhat do you want: ",valid=(0,3))
+                if choice==0:
+                    break
+                elif choice==1:
+                    while True:
+                        choice=utill_functions.get_valid_type(int,"0 to return\nwhat is the name of the class: ")
+                    grades.change_grade(student,)
+        elif choice==2:
+            print(grades)
+if __name__=="__main__":
+    main()
