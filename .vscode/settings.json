@@ -1,5 +1,9 @@
 {
     "cSpell.words": [
         "puse"
-    ]
+    ],
+    "js/ts.implicitProjectConfig.strict": false,
+    "js/ts.implicitProjectConfig.strictFunctionTypes": false,
+    "js/ts.implicitProjectConfig.strictNullChecks": false,
+    "python.analysis.typeEvaluation.strictParameterNoneValue": false
 }

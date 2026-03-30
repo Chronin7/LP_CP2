@@ -46,6 +46,35 @@ def debugger(func):
         func()
         print(f"affter func{func.__name__}")
     return before_and_after
+def menu(options, descriptions, prompt="Select an option: "):
+    """
+    Displays a menu of options, prompts the user for a selection, and executes
+    the corresponding function.
+
+    Parameters:
+    - options (list of callables): A list of functions to execute for each menu item.
+    - descriptions (list of str): A list of descriptions or labels for each option.
+                                    Must be the same length as options.
+    - prompt (str): The prompt message displayed to the user for input.
+
+    Behavior:
+    - Displays numbered options based on descriptions.
+    - Includes an option '0' to quit the menu.
+    - Validates user input to ensure it is an integer within the valid range.
+    - Calls the selected function from options based on user choice.
+    - Loops until the user chooses to quit (inputs 0).
+    """
+    while True:
+        print("\nPlease choose an option:")
+        for idx, desc in enumerate(descriptions):
+            print(f"{idx + 1}. {desc}")
+        print("0. Quit")
+        choice = get_valid_type(int, prompt, valid=(0, len(options)))
+        if choice == 0:
+            break
+        else:
+            options[choice - 1]()
+
 def get_valid_type(type_return: type, prompt, invalid_prompt="Invalid input. Please try again.",valid=None, typing=False, end="", type_speed=False, random_bounds=(0, .1),min_max=None):
     """
     Prompt the user until they provide a value that can be converted to type_return
@@ -103,35 +132,7 @@ def get_valid_type(type_return: type, prompt, invalid_prompt="Invalid input. Ple
     except Exception as e:
         raise RuntimeError("error 001 occurred in get_valid_type") from e
 
-def select_item[T](
-        items: Iterable[T],
-        prompt: str,
-        invalid_prompt: str="that is not a valid input, press enter to continue",
-        force_selection: bool=False
-    ):
-    choices: dict[int, T] = {}
-    if force_selection:
-        print("0 to return")
-    key = 1
-    for item in items:
-        choices[key] = item
-        print(f"{key} {item}")
-        key += 1
-    choice: int = get_valid_type(int, prompt, invalid_prompt, (1 if force_selection else 0,len(choices)))
-    if choice == 0:
-        return None
-    return choices[choice]
-def getch():
-    import sys, termios, tty
 
-    fd = sys.stdin.fileno()
-    orig = termios.tcgetattr(fd)
-
-    try:
-        tty.setcbreak(fd)  # or tty.setraw(fd) if you prefer raw mode's behavior.
-        return sys.stdin.read(1)
-    finally:
-        termios.tcsetattr(fd, termios.TCSAFLUSH, orig)
 #def menu(*options,curser="⁍"):
 #    while True:
 #        if getch()=="w":

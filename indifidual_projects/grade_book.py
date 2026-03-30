@@ -4,8 +4,8 @@ class student:
         self.grades=grades
         self.name=name
         total=0
-        for x in grades:
-            total+=x
+        for k,x in grades.items():
+            total+=int(x)
         self.average=total/len(grades)
         if "koro" in name:
             print("""⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -86,13 +86,15 @@ class student:
     def __str__(self):
         out=str(self.name)
         for x in self.get_classes():
-            out=f"{out}\n{x}: letter grade: {grade_letter(self.grades[x])[0]} GPA: {grade_letter(self.grades[x])[1]}"
+            out=f"{out}\n{x}: number grade:{self.grades[x]} letter grade: {grade_letter(self.grades[x])[0]} GPA: {grade_letter(self.grades[x])[1]}"
         out=f"{out}\naverage grade: letter: {grade_letter(self.get_avrage())[0]} GPA: {grade_letter(self.get_avrage())[1]}"
-        return 
+        return out
     def change_grade(self,class_grade):
         self.grades[class_grade[0]]=class_grade[1]
     def get_classes(self):
         return self.grades.keys()
+    def g_grades(self):
+        return self.grades.items()
     def __repr__(self):
         return self.name
     def get_avrage(self):
@@ -127,7 +129,6 @@ class grade_book:
         student=self.get_student(nstudent)
         student.change_grade(grade_class)
     def __iter__(self):
-        names=[]
         for x in self.students:
             yield repr(x)
     def __str__(self):
@@ -248,7 +249,7 @@ def get_grade_dict(name):
                 print("you cant have a student with 0 classes")
                 continue
             break
-        grade=utill_functions.get_valid_type(int,f"what is {name}'s grade in {class_name}",valid=(0,1000))
+        grade=utill_functions.get_valid_type(int,f"what is {name}'s grade in {class_name}: ",valid=(0,1000))
         grade_dict[class_name]=grade
     return grade_dict
 def main():
@@ -261,20 +262,48 @@ def main():
         elif choice==1:
             menu="here are your options (type them in exactly as seen)"
             valid=[]
-            for num,x in enumerate(grade_book):
+            for num,x in enumerate(grades):
                 menu=f"{menu}\n {x}"
                 menu=f"{menu}\nwho do you want: "
                 valid.append(x)
-            student=utill_functions.get_valid_type(str,menu,valid=valid)
+            studentt=utill_functions.get_valid_type(str,menu,valid=valid)
             while True:
                 choice=utill_functions.get_valid_type(int,"0 to return\n1 to change grades\n2 to see grades\n3 to remove student\nwhat do you want: ",valid=(0,3))
                 if choice==0:
                     break
                 elif choice==1:
                     while True:
-                        choice=utill_functions.get_valid_type(int,"0 to return\nwhat is the name of the class: ")
-                    grades.change_grade(student,)
+                        valid=[]
+                        grades.get_grades(studentt)
+                        for x in grades.get_student(studentt).get_classes():
+                            valid.append(x)
+                            print(x)
+                        choice=utill_functions.get_valid_type(str,"0 to return\nwhat is the name of the class: ",valid=valid)
+                        if choice=="0":
+                            break
+                        else:
+                            class_name=choice
+                            choice=utill_functions.get_valid_type(int,"what is the new grade: ",valid=(0,1000))
+                            grades.change_grade(studentt,(class_name,choice))
+                            break
+                elif choice==2:
+                    print(grades.get_grades(studentt))
+                elif choice==3:
+                    if choice==0:
+                        menu="here are your options (type them in exactly as seen)"
+                        valid=[]
+                        for num,x in enumerate(grades):
+                            menu=f"{menu}\n {x}"
+                            valid.append(x)
+                            menu=f"{menu}\nwho do you want to remove: "
+                        studentt=utill_functions.get_valid_type(str,menu,valid=valid)
+                        grades.remove_student(studentt)
+                    else:
+                        print("you cant remove your last student")
         elif choice==2:
             print(grades)
+        elif choice==3:
+            name=utill_functions.get_valid_type(str,"what is the name of your student: ")
+            grades.add_student(student(name,get_grade_dict(name)))
 if __name__=="__main__":
     main()
