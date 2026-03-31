@@ -6,6 +6,11 @@ class math_functions:
     def return_mod(self,prev):
         if self.operation=="-":
             return prev-self.number
-        elif self.operation
+        elif self.operation=="+":
+            return prev+self.number
+        elif self.operation=="*":
+            return prev*self.number
+        elif self.operation=="/":
+            return prev/self.number
 class node:
     def __init__(self,destinations,math_function):
