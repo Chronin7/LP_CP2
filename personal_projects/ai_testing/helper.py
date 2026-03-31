@@ -13,4 +13,4 @@ class math_functions:
         elif self.operation=="/":
             return prev/self.number
 class node:
-    def __init__(self,destinations,math_function):
+    def __init__(self,destinations:,math_function):

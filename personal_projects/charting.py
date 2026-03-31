@@ -1,5 +1,7 @@
 import math
 import turtle
+wn = turtle.Screen()
+wn.tracer(0) 
 def pie_chart(list_of_persentages,list_of_collors,list_of_names,x_offset,y_offset,key_offset,size,key_size):
     fred=turtle.Turtle()
     fred.speed(0)
@@ -58,15 +60,15 @@ pie_chart(list_of_persentages,list_of_collors,list_of_names,x_offset,y_offset,ke
 
 
 obj1=[30,60,70,95,29,43]
-obj2=[64,82,97,19,63,81]
+obj2=[64,82,97,19,1000,81]
 obj3=[16,3,62,57,41,43]
 obj4=[34,81,78,43,61,3]
 obj5=[16,53,84,26,35,63]
 obj6=[13,71,25,34,61,23]
 objs=[obj1,obj2,obj3,obj4,obj5]
-graph_offset=(-300,-300)
+graph_offset=(-500,100)
 graph_size=200
-
+intensaty=10
 joe=turtle.Turtle()
 joe.penup()
 joe.speed(0)
@@ -75,5 +77,19 @@ joe.left(90)
 joe.pendown()
 joe.forward(graph_size)
 joe.backward(graph_size)
+joe.right(90)
+joe.forward(graph_size*1.5)
+joe.goto(graph_offset)
+joe.pensize(3)
+for num1,x in enumerate(objs):
+    joe.penup()
+    joe.goto(graph_offset)
+    joe.color(list_of_collors[num1])
+    for num2,y in enumerate(x):
+        if num2==1:
+            joe.pendown()
+        intensaty=graph_size*1.5/len(objs[0])
+        joe.goto(graph_offset[0]+num2*intensaty,graph_offset[1]+y)
+wn.update()
 turtle.done()
 
