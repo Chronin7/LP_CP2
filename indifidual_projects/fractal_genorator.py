@@ -7,6 +7,11 @@ def main():
             turtle.bye()
         except:
             pass
+        try:
+            turtle.Screen()
+        except:
+            print("this is not avalable on your device")
+            return
         choise=utill_functions.get_valid_type(int,"0 to return\n1 to draw a sierpinski triangle\n2 to set background color\nWhat do you want: ",valid=(0,3))
         turtle.TurtleScreen._RUNNING=True
         turtle.Turtle._screen=None

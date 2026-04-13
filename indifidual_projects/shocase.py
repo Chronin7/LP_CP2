@@ -2,6 +2,13 @@ import utill_functions
 import importlib.util
 import os
 import sys
+tkin=False
+try:
+    import tkinter as tk
+    import tkinter.simpledialog as simpledialog
+    tkin=True
+except:
+    print("tkinter is not avalable: useing terminal based program")
 module_names=[]
 imported_modules = {}
 def import_files(folder_path):
@@ -30,8 +37,21 @@ while True:
     prompt="0 to quit\n"
     for x,y in enumerate(names):
         prompt=prompt+f"{x+1} for {y.replace("_"," ")}\n"
-    user_input=utill_functions.get_valid_type(int,prompt,valid=(0,len(names)))
+    if tkin:  
+        try:  
+            user_input = simpledialog.askinteger("Input", prompt, minvalue=0, maxvalue=len(names))
+            if user_input==None:
+                user_input=0
+        except:
+            print("desplay is not avalable: useing terminal based program")
+            user_input=-1
+            tkin=False
+    else:
+        user_input=utill_functions.get_valid_type(int,prompt,valid=(0,len(names)))
     if user_input==0:
         print("goodbye")
         break
-    mods[names[user_input-1]].main()
+    if user_input==-1:
+        pass
+    else:
+        mods[names[user_input-1]].main()
