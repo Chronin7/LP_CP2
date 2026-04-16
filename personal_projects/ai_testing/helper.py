@@ -53,7 +53,7 @@ class NeuralNet:
         self.load_or_create(layers)
 
     def load_or_create(self, layers):
-        if not os.path.exists(self.filename):
+        if not os.path.exists(self.filename) or os.path.getsize(self.filename) == 0:
             print("No save found. Creating new network...")
             for i, size in enumerate(layers):
                 layer = []
